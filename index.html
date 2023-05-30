@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <title>World Information</title>
+<!--
+
+Template 2095 Level
+
+http://www.tooplate.com/view/2095-level
+
+-->
+    <!-- load stylesheets -->
+    <link rel="shortcut icon" href="img/mundo.png"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="css/datepicker.css"/>
+    <link rel="stylesheet" href="css/tooplate-style.css">                                   <!-- Templatemo style -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+</head>
+
+    <body>
+        <div class="tm-main-content" id="top">
+            <div class="tm-top-bar-bg"></div>
+            <div class="tm-top-bar" id="tm-top-bar">
+                <!-- Top Navbar -->
+                <div class="container">
+                    <div class="row">
+                        
+                        <nav class="navbar navbar-expand-lg narbar-light">
+                            <a class="navbar-brand mr-auto" href="#">
+                                <img src="img/mundo.png" alt="Site logo">
+                                InfoWorld
+                            </a>
+                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                            </div>                            
+                        </nav>            
+                    </div>
+                </div>
+            </div>
+            <div class="tm-section tm-bg-img" id="tm-section-1">
+                <div class="tm-bg-white ie-container-width-fix-2">
+                    <div class="container ie-h-align-center-fix">
+                        <div class="row">
+                            <div class="col-xs-12 ml-auto mr-auto ie-container-width-fix">
+                                <form action="index.html" method="get" class="tm-search-form tm-section-pad-2">
+                                    <div class="form-row tm-search-form-row">
+                                    </div>
+                                    <div class="form-row tm-search-form-row">
+                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                            <select name="Continent" class="form-control tm-select" id="continentes">
+                                            </select>
+                                            <i class="fa fa-2x fa-user tm-form-element-icon"></i>
+                                        </div>
+                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                            <select name="Countries" class="form-control tm-select" id="listap">
+                                            </select>
+                                            <i class="fa fa-user tm-form-element-icon tm-form-element-icon-small"></i>
+                                            <i class=""></i>
+                                        </div>
+                                        <div class="form-group tm-form-element tm-form-element-2">                                            
+                                            <select name="Borders" class="form-control tm-select" id="listaf">
+                                            </select>
+                                            <i class="fa fa-user tm-form-element-icon tm-form-element-icon-small"></i>
+                                            <i class=""></i>
+                                        </div>
+                                        <div class="form-group tm-form-element tm-form-element-2">
+                                            <button type="submit" class="btn btn-primary tm-btn-search">Limpiar</button>
+                                        </div>
+                                      </div>
+                                      <p class="titulo-info">Información País</p>
+                                      <div class="form-row clearfix pl-2 pr-2 tm-fx-col-xs">
+                                          <br>
+                                          <p class="tm-margin-b-0" id="info"></p>
+                                      </div>
+                                      <p class="titulo-info">Información Frontera</p>
+                                      <div class="form-row clearfix pl-2 pr-2 tm-fx-col-xs">
+                                          <br>
+                                          <p class="tm-margin-b-0" id="info2"></p>
+                                      </div>
+                                </form>
+                            </div>                        
+                        </div>      
+                    </div>
+                </div>                  
+            </div>
+            <script>
+                function consultarContinentes(){
+                 $.ajax({
+                 cache: false,
+                 url: 'http://localhost:2501/continentes/',
+                 async: false,
+                 type: "get",
+                 dataType: "json",
+                 data: {},
+                 error: function (response, status, error) {
+                     alert(error);
+                 },
+                 success: function (response) {
+                   var options=""
+                   for(var i=0;i<response.length ;i++ ){
+                       options = options + '<option value="'+response[i] +'">'+ response[i] +'</option>'
+         
+                   }
+         
+                   $("#continentes").append(options);
+                 },
+                 beforeSend: function () {
+                     
+                 },
+                 complete: function () {
+                    
+                 }
+                 
+         
+                });
+         
+               }
+         
+               consultarContinentes();
+         
+               $("#continentes").change(function(){
+
+                 $.ajax({
+                 cache: false,
+                 url: 'http://localhost:2501/listapaises/' + $(this).val(),
+                 async: false,
+                 type: "get",
+                 dataType: "json",
+                 data: {},
+                 error: function (response, status, error) {
+                     alert(error);
+                 },
+                 success: function (response) {
+                    $("#listap").empty();
+                    var options="" + '<option value="">' +'</option>'
+                  
+                   for(var i=0;i<response.length ;i++ ){
+                       options = options + '<option value="'+response[i].name +'">'+ response[i].name +'</option>'
+         
+                   }
+         
+                   $("#listap").append(options);
+                 },
+                 beforeSend: function () {
+                     
+                 },
+                 complete: function () {
+                    $("#info").empty();  
+                    $("#info2").empty(); 
+                 }
+             });
+               });
+
+
+
+               $("#listap").change(function(){
+                 $.ajax({
+                 cache: false,
+                 url: 'http://localhost:2501/listafronteras/' + $(this).val(),
+                 async: false,
+                 type: "get",
+                 dataType: "json",
+                 data: {},
+                 error: function (response, status, error) {
+                     alert(error);
+                 },
+                 success: function (response) {
+                    $("#listaf").empty();
+                    var options="" + '<option value="">' +'</option>'
+                    var fronteras=""
+                   
+                   for(var i=0;i<response.length ;i++ ){
+                       fronteras = response[i].borders
+                       for(var j=0;j<fronteras.length;j++){
+                        options = options + '<option value="'+response[i].borders[j] +'">'+ response[i].borders[j] +'</option>'
+                       }
+         
+                   }
+         
+                   $("#listaf").append(options);
+                 },
+                 beforeSend: function () {
+                     
+                 },
+                 complete: function () {
+                    consultarInfo(); 
+                    $("#info2").empty();                   
+                 }
+                 
+             });
+               });
+
+
+               function consultarInfo(){
+                 $.ajax({
+                 cache: false,
+                 url: 'http://localhost:2501/listaInfo/' + $('#listap option:selected').val(),
+                 async: false,
+                 type: "get",
+                 dataType: "json",
+                 data: {},
+                 error: function (response, status, error) {
+                     alert(error);
+                 },
+                 success: function (response) {
+                    $("#info").empty();
+                   var options=""
+                   
+                   for(var i=0;i<response.length ;i++ ){
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Nombre : " +' '+ response[i].name +' </option>'
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Poblacion : " +' '+ response[i].population +' </option>'
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Dominio : " +' '+ response[i].topLevelDomain +' </option>'
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Capital : " +' '+ response[i].capital +' </option>'
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Area : " +' '+ response[i].area +' </option>'
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Codigo del pais : " +' '+ response[i].callingCodes +' </option>'
+                       options = options + '<option value="'+ response[i].alpha2Code +'">'+"Sub Region : " +' '+ response[i].subregion +' </option>'
+                   }
+         
+                   $("#info").append(options);
+                 },
+                 beforeSend: function () {
+                     
+                 },
+                 complete: function () {
+                    
+                 }
+             });
+               };
+
+               $("#listaf").change(function(){
+                 $.ajax({
+                 cache: false,
+                 url: 'http://localhost:2501/listaInfo2/' + $(this).val(),
+                 async: false,
+                 type: "get",
+                 dataType: "json",
+                 data: {},
+                 error: function (response, status, error) {
+                     alert(error);
+                 },
+                 success: function (response) {
+                    $("#info2").empty();
+                   var options=""
+                   
+                   for(var i=0;i<response.length ;i++ ){
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Nombre : " +' '+ response[i].name +' </option>'
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Poblacion : " +' '+ response[i].population +' </option>'
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Dominio : " +' '+ response[i].topLevelDomain +' </option>'
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Capital : " +' '+ response[i].capital +' </option>'
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Area : " +' '+ response[i].area +' </option>'
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Codigo del pais : " +' '+ response[i].callingCodes +' </option>'
+                       options = options + '<option value="'+ response[i].alpha3Code +'">'+"Sub Region : " +' '+ response[i].subregion +' </option>'
+                   }
+         
+                   $("#info2").append(options);
+                 },
+                 beforeSend: function () {
+                     
+                 },
+                 complete: function () {
+                    
+                 }
+             });
+               });
+             </script>
+            
+</body>
+</html>
+
